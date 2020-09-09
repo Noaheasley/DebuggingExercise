@@ -4,6 +4,15 @@ using System.Text;
 
 namespace HelloWorld
 {
+    struct Player
+    {
+        public int health;
+        public float speed;
+        public bool isAlive;
+        public string name;
+        public int defense;
+        public int damage;
+    }
     class Game
     {
         bool _gameOver = false;
@@ -12,6 +21,7 @@ namespace HelloWorld
         int _playerDamage = 20;
         int _playerDefense = 10;
         int levelScaleMax = 5;
+        Player player1;
         int _healMax = 200;
         //Run the game
         public void Run()
@@ -57,7 +67,7 @@ namespace HelloWorld
                     {
                         
                         enemyHealth = 200;
-                        enemyAttack = 40;
+                        enemyAttack = 50;
                         enemyDefense = 20;
                         enemyName = "Golem";
                         break;
@@ -198,7 +208,13 @@ namespace HelloWorld
             Console.WriteLine("Damage: " + damage);
             Console.WriteLine("Defense: " + defense);
         }
-
+        void PrintStats(Player player)
+        {
+            Console.WriteLine("\n" + player.name);
+            Console.WriteLine("Health: " + player.health);
+            Console.WriteLine("Damage: " + player.damage);
+            Console.WriteLine("Defense: " + player.defense);
+        }
         //This is used to progress through our game. A recursive function meant to switch the rooms and start the battles inside them.
         void ClimbLadder(int roomNum)
         {
@@ -259,26 +275,26 @@ namespace HelloWorld
                 //Sets the players default stats based on which character was picked
                 if (input == '1')
                 {
-                    _playerName = "Sir Kibble";
-                    _playerHealth = 120;
-                    _playerDefense = 10;
-                    _playerDamage = 40;
-
+                    player1.name = "Sir Kibble";
+                    player1.health = 120;
+                    player1.defense = 10;
+                    player1.damage = 4000;
+                    break;
                 }
                 else if (input == '2')
                 {
-                    _playerName = "Gnojoel";
-                    _playerHealth = 70;
-                    _playerDefense = 20;
-                    _playerDamage = 70;
+                    player1.name = "Gnojoel";
+                    player1.health = 70;
+                    player1.defense = 20;
+                    player1.damage = 70;
                     break;
                 }
                 else if (input == '3')
                 {
-                    _playerName = "Joedazz";
-                    _playerHealth = 200;
-                    _playerDefense = 10;
-                    _playerDamage = 30;
+                    player1.name = "Joedazz";
+                    player1.health = 200;
+                    player1.defense = 10;
+                    player1.damage = 30;
                     break;
                 }
                 //If an invalid input is selected display and input message and input over again.
@@ -292,7 +308,7 @@ namespace HelloWorld
                 Console.Clear();
             }
             //Prints the stats of the choosen character to the screen before the game begins to give the player visual feedback
-            PrintStats(_playerName,_playerHealth,_playerDamage,_playerDefense);
+            PrintStats(player1);
             Console.WriteLine("Press any key to continue.");
             Console.Write("> ");
             Console.ReadKey();
@@ -303,15 +319,15 @@ namespace HelloWorld
         void HealingChamber()
         {
             char input;
-            PrintStats(_playerName, _playerHealth, _playerDamage, _playerDefense);
+            PrintStats(player1);
 
             Console.WriteLine("\nDo you wish to heal or gain stregth?");
-            GetInput(out input, "Heal for 100 HP", "gain 20 attack", "Gain 20 defence");
+            GetInput(out input, "Heal for 100 HP", "gain 20 attack", "Gain 10 defence");
             if(input == '1')
             {
                 Console.WriteLine("\nYou dranked a healing potion(+100 HP gained)");
                 _playerHealth += 100;
-                PrintStats(_playerName, _playerHealth, _playerDamage, _playerDefense);
+                PrintStats(player1);
                 Console.WriteLine(">");
                 Console.ReadKey();
                 return;
@@ -320,7 +336,7 @@ namespace HelloWorld
             {
                 Console.WriteLine("\nYou sharpen your weapon(+20 attack gained)");
                 _playerDamage += 20;
-                PrintStats(_playerName, _playerHealth, _playerDamage, _playerDefense);
+                PrintStats(player1);
                 Console.WriteLine(">");
                 Console.ReadKey();
                 return;
@@ -328,8 +344,8 @@ namespace HelloWorld
             else if(input == '3')
             {
                 Console.WriteLine("You find a sturdy sheild (+20 defence)");
-                _playerDefense += 20;
-                PrintStats(_playerName, _playerHealth, _playerDamage, _playerDefense);
+                _playerDefense += 10;
+                PrintStats(player1);
                 Console.WriteLine(">");
                 Console.ReadKey();
             }
